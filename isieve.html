@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Single Number Sieve</h1>
+<h2>in Javascript</h2>
+
+
+<canvas id="myCanvas" width="800" height="2000" style="border:1px solid grey"></canvas>
+
+<script>
+// javascript, to illustrate the single number sieve, click to go to next number.
+// 2024.10.24   uploaded current version to github
+
+let IP = 0;         // Where are we.
+const rSize = 30;  // size of each box.
+const rSpace = 5;  // size of space between boxes.
+
+const Limit =120; 
+const MaxRows = Limit/10; 
+
+var numberArray = new Array();
+
+
+const color_lGrey1 = "rgb(211,211,211)"; 
+const color_dGrey1 = "rgb(47,79,79)"; 
+const color_00ff00 = "rgb(0,255,0)"; 
+const color_DBCE28 = "rgb(219,206,40)"; 
+const color_vltGreen = "#D1FFBD"; 
+
+
+
+function DrawSieveNumber( item ) 
+{
+   let bw = rSize; 
+   
+   // sanity checks, must be an item number, must be a box width, must be a valid type
+   if ( (item.num > 1) ) { 
+
+        var irow = Math.trunc(item.num/10);  
+        var icol = (item.num%10);
+        var xv = icol * (rSize+rSpace) + 2; 
+        var yv = irow * (rSize+rSpace) + 2; 
+
+        // draw BoxFrame. 
+        ctx.lineWidth = 2;
+        ctx.strokeStyle =  "black";
+        ctx.strokeRect( xv, yv, bw, bw);
+
+        // chose bkground color.
+        switch ( item.iValue ) { 
+            case 1: ctx.fillStyle = "#A0A000";            break; 
+            case 2: ctx.fillStyle = color_vltGreen;       break; 
+            default: ctx.fillStyle = "grey";              break; 
+        } 
+        ctx.fillRect( xv+4, yv+4, bw-8, bw-8); 
+        
+        // draw Number. 
+        ctx.fillStyle =  "black";
+        ctx.font = "bold 14px Arial"; 
+        ctx.fillText( item.num.toString(), xv +6, yv +bw-Math.ceil(bw/4));
+   } 
+} 
+
+
+function MyClickFunction() { 
+   if ( IP < 2 )  
+      IP = 2;
+   else if (IP > Limit )  
+      return;   
+   else 
+      IP++; 
+
+   // number is 1, n*numer is 2
+   var j=2; 
+   for (; j< Limit; j++) { 
+      numberArray[j].iValue = 0;
+      if ( j >= IP) {
+         if ( j==IP)  numberArray[j].iValue = 1; 
+         else if ( (j % IP) == 0 ) numberArray[j].iValue = 2;   
+      } 
+      DrawSieveNumber( numberArray[j] );
+   } 
+}
+ 
+const c = document.getElementById("myCanvas");
+const ctx = c.getContext("2d");
+ctx.clearRect(0,0,c.width, c.height); // clear canvas
+var i=0;
+
+// build list.
+for (i=2; i< Limit; i++) { 
+   numberArray[i] = { num: i, iValue: 0 }; 
+   DrawSieveNumber( numberArray[i] ) ; 
+}  
+
+
+c.addEventListener('click', function(event) { 
+    event.preventDefault();   
+    MyClickFunction(); 
+    console.log("canvas clicked"); 
+}
+); 
+
+
+</script> 
+
+</body>
+</html>
