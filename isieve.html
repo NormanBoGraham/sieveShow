@@ -21,18 +21,8 @@ const MaxRows = Limit/10;
 var numberArray = new Array();
 
 
-const color_lGrey1 = "rgb(211,211,211)"; 
-const color_dGrey1 = "rgb(47,79,79)"; 
-const color_00ff00 = "rgb(0,255,0)"; 
-const color_DBCE28 = "rgb(219,206,40)"; 
-const color_vltGreen = "#D1FFBD"; 
-
-
-
 function DrawSieveNumber( item ) 
-{
-   let bw = rSize; 
-   
+{  
    // sanity checks, must be an item number, must be a box width, must be a valid type
    if ( (item.num > 1) ) { 
 
@@ -44,20 +34,20 @@ function DrawSieveNumber( item )
         // draw BoxFrame. 
         ctx.lineWidth = 2;
         ctx.strokeStyle =  "black";
-        ctx.strokeRect( xv, yv, bw, bw);
+        ctx.strokeRect( xv, yv, rSize, rSize);
 
         // chose bkground color.
         switch ( item.iValue ) { 
-            case 1: ctx.fillStyle = "#A0A000";            break; 
-            case 2: ctx.fillStyle = color_vltGreen;       break; 
-            default: ctx.fillStyle = "grey";              break; 
+            case 1: ctx.fillStyle = "#A0A000";   break; 
+            case 2: ctx.fillStyle = "#D1FFBD";   break; 
+            default: ctx.fillStyle = "grey";     break; 
         } 
-        ctx.fillRect( xv+4, yv+4, bw-8, bw-8); 
+        ctx.fillRect( xv+4, yv+4, rSize-8, rSize-8); 
         
         // draw Number. 
         ctx.fillStyle =  "black";
         ctx.font = "bold 14px Arial"; 
-        ctx.fillText( item.num.toString(), xv +6, yv +bw-Math.ceil(bw/4));
+        ctx.fillText( item.num.toString(), xv +6, yv +rSize-Math.ceil(rSize/4));
    } 
 } 
 
